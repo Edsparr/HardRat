@@ -7,16 +7,12 @@ export class FetchData extends Component {
     super(props);
     this.state = { forecasts: [], loading: true };
     this.handleChange = this.handleChange.bind(this)
-    this.handleAssembliesChange = this.handleAssembliesChange.bind(this)
 
   }
   handleChange(event) {
     this.setState({ codeInput: event.target.value });
   }
 
-  handleAssembliesChange(event) {
-    this.setState({ assemblies: event.target.value });
-  }
 
   render() {
     let contents = this.state.loading
@@ -31,9 +27,6 @@ export class FetchData extends Component {
 
         </textarea>
 
-        <textarea id="w3mission" rows="20" cols="10" value={this.state.assemblies} onChange={this.handleAssembliesChange}>
-
-        </textarea>
 
 
         <div>
@@ -43,8 +36,7 @@ export class FetchData extends Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              code: encodeURI(this.state.codeInput),
-              assemblies: this.state.assemblies.split(' ')
+              code: encodeURI(this.state.codeInput)
             })
           })
           }}>Execute code on clients</button>

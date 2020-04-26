@@ -21,6 +21,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientExecutions\HideTaskbar.csprefab" />
+    <None Remove="ClientExecutions\ShowTaskbar.csprefab" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientExecutions\HideTaskbar.csprefab" />
+    <Content Include="ClientExecutions\ShowTaskbar.csprefab" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HardRat.Common\HardRat.Common.csproj" />
   </ItemGroup>
 

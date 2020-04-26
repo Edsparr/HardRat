@@ -25,20 +25,20 @@ namespace HardRat.Website.Core.Controllers
         [HttpPost("Execute")]
         public async Task ExecuteCode([FromBody] ExecuteCodeDto code)
         {
-            await hub.Clients.All.SendAsync("ExecuteCode", HttpUtility.UrlDecode(code.Code), code.Assemblies);
+            await hub.Clients.All.SendAsync("ExecuteCode", HttpUtility.UrlDecode(code.Code));
         }
 
         [HttpPost("Action/{actionName}")]
         public async Task<IActionResult> ExecuteAction([FromRoute] string actionName)
         {
-            var fileName = $"ClientExecutions/{actionName}.json";
+            var fileName = $"ClientExecutions/{actionName}.csprefab";
             if (!System.IO.File.Exists(fileName))
                 return NotFound();
-            using(StreamReader reader = new StreamReader(new FileStream($"ClientExecutions/{actionName}.json", FileMode.Open)))
+
+            using(StreamReader reader = new StreamReader(new FileStream($"ClientExecutions/{actionName}.csprefab", FileMode.Open)))
             {
                 var content = await reader.ReadToEndAsync(); //Optimize to deserialize via stream someday.
-                var @object = JsonConvert.DeserializeObject<ExecuteCodeDto>(content);
-                await hub.Clients.All.SendAsync("ExecuteCode", HttpUtility.UrlDecode(@object.Code), @object.Assemblies);
+                await hub.Clients.All.SendAsync("ExecuteCode", content);
                 return Ok();
             }
         }
