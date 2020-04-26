@@ -41,6 +41,7 @@ namespace HardRat.ClientApp
                 ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             var loc = Path.Combine(Directory.GetCurrentDirectory(), "HardRat.ClientApp.exe");
 
+             
 
             Console.WriteLine(loc);
             rk.SetValue(AppName, loc);

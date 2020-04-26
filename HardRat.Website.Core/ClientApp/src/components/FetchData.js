@@ -5,8 +5,17 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+    this.state = { clients: [], loading: true };
     this.handleChange = this.handleChange.bind(this)
+
+    fetch("Api/ServerHub/Clients")
+      .then(c => c.json())
+      .then(c => {
+        this.setState({
+          clients: c,
+          isLoading: false
+        })
+      })
 
   }
   handleChange(event) {
@@ -14,10 +23,17 @@ export class FetchData extends Component {
   }
 
 
+  renderClients(clients) {
+    return 
+    <div>
+      {clients.map(c => <p>{c.connectionId}:::{c.ip}</p> )}
+    </div>
+  }
+
   render() {
-    let contents = this.state.loading
+    let contents = this.state.isLoading
       ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+      : this.renderClients(this.state.clients);
 
     return (
       <div>
@@ -26,7 +42,7 @@ export class FetchData extends Component {
         <textarea id="w3mission" rows="20" cols="50" value={this.state.codeInput} onChange={this.handleChange}>
 
         </textarea>
-
+        {contents}
 
 
         <div>
